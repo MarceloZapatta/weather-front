@@ -1,4 +1,11 @@
+import type { User } from '@/interfaces/user'
 import axios from 'axios'
+
+interface LoginResponse {
+  message: string
+  user: User
+  token: string
+}
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
@@ -6,7 +13,10 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-export const login = async (email: string, password: string) => {
+export const login = async (
+  email: string,
+  password: string,
+): Promise<LoginResponse> => {
   try {
     const response = await api.post('/login', { email, password })
     return response.data

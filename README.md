@@ -4,3 +4,8 @@
 
 `yarn`
 `yarn dev`
+
+## Features
+
+- Vue 3 Compose API
+- Pinia

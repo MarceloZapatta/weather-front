@@ -1,8 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import InputText from '../components/InputText.vue'
 import ButtonDefault from '../components/ButtonDefault.vue'
 import { login } from '../services/api'
+import { useUserStore } from '../stores/user'
+
+const router = useRouter()
+const user = useUserStore()
 
 const email = ref('')
 const password = ref('')
@@ -15,8 +20,9 @@ const handleLogin = async () => {
 
   loading.value = true
   login(email.value, password.value)
-    .then(() => {
-      alert('logged in sucessfully')
+    .then(response => {
+      user.$patch({ user: response.user, token: response.token })
+      router.push('/weather')
     })
     .finally(() => {
       loading.value = false
