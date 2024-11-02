@@ -21,7 +21,9 @@ const locations = useLocationStore()
 const storeCity = async () => {
   loading.value = true
   storeLocation(city.value, country.value)
-    .then(response => {
+    .then(() => {
+      city.value = ''
+      country.value = ''
       addCityForm.value = false
       fetchSavedLocations()
     })
@@ -66,6 +68,11 @@ const fetchSavedLocations = async () => {
     })
 }
 
+const handleBack = () => {
+  error.value = null
+  addCityForm.value = false
+}
+
 const handleAddCity = () => {
   if (locations.locations.length >= 3) {
     alert('You can only save up to 3 cities.')
@@ -83,14 +90,15 @@ onMounted(() => {
 <template>
   <div class="weather-view">
     <h1>Weather Forecast</h1>
-    <h2>Hello, {{ user?.name }}!</h2>
+    <h2 class="greeting">Hello, {{ user?.name }}!</h2>
+    <div v-if="error">{{ error }}</div>
     <div v-if="loading">Loading...</div>
     <div v-else-if="addCityForm">
       <InputText v-model="city" label="City" />
       <CountrySelect v-model="country" label="Country" />
       <ButtonDefault @click="storeCity">Save</ButtonDefault>
-      <ButtonDefault @click="addCityForm = false">
-        {{ 'Close' }}
+      <ButtonDefault @click="handleBack">
+        {{ 'Back' }}
       </ButtonDefault>
     </div>
     <div v-else class="saved-cities-container">
@@ -125,6 +133,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.greeting {
+  margin: 20px 0;
+}
+
 .weather-view {
   padding: 20px;
 }
