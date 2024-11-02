@@ -72,4 +72,18 @@ export const getLocations = async (): Promise<LocationResponse> => {
   }
 }
 
+export const deleteLocation = async (id: number) => {
+  try {
+    const response = await api.delete(`/user/locations/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    return response.data
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    throw error
+  }
+}
+
 export default api

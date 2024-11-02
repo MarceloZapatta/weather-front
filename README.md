@@ -9,3 +9,4 @@
 
 - Vue 3 Compose API
 - Pinia
+- Popover
