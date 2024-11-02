@@ -1,8 +1,10 @@
 export interface LocationForecast {
+  icon: string
   date: string
+  description: string
   temperature: number
   humidity: number
-  rainfall: number
+  rain: number
   wind_speed: number
   wind_direction: string
   pressure: number

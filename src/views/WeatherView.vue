@@ -66,33 +66,23 @@ onMounted(() => {
         {{ 'Close' }}
       </ButtonDefault>
     </div>
-    <div>
-      <ButtonDefault
-        :key="location.id"
-        v-for="location in locations.locations"
-        @click="selectedLocationForecasts = location.forecasts"
-      >
-        {{ location.city }} - {{ location.country }}
-      </ButtonDefault>
+    <div class="saved-cities-container">
+      Saved cities:
+      <div class="saved-cities-buttons-container">
+        <ButtonDefault
+          :key="location.id"
+          v-for="location in locations.locations"
+          @click="selectedLocationForecasts = location.forecasts"
+        >
+          {{ location.city }} - {{ location.country }}
+        </ButtonDefault>
+        <div v-if="locations.locations.length <= 0">No cities saved.</div>
+      </div>
       <ButtonDefault @click="addCityForm = true">
-        {{ 'Add City' }}
+        {{ 'Add New City' }}
       </ButtonDefault>
     </div>
     <LocationForecastTable :locationForecasts="selectedLocationForecasts" />
-    <div>
-      <div></div>
-    </div>
-    <!-- <div v-else-if="error">{{ error }}</div>
-    <div v-else class="weather-content">
-      <div class="current-weather">
-        <h2>Current Weather</h2>
-        <div class="weather-info">
-          <p>Temperature: {{ weather.temperature }}°C</p>
-          <p>Condition: {{ weather.condition }}</p>
-          <p>Humidity: {{ weather.humidity }}%</p>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -115,5 +105,12 @@ onMounted(() => {
 
 .weather-info {
   margin-top: 10px;
+}
+
+.saved-cities-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 </style>
