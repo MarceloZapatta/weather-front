@@ -5,6 +5,7 @@ import InputText from '../components/InputText.vue'
 import ButtonDefault from '../components/ButtonDefault.vue'
 import { login } from '../services/api'
 import { useUserStore } from '../stores/user'
+import LogoComponent from '../components/LogoComponent.vue'
 
 const router = useRouter()
 const user = useUserStore()
@@ -59,6 +60,7 @@ const handleLogin = async () => {
 </script>
 
 <template>
+  <LogoComponent />
   <div class="login">
     <div class="login-container">
       <form>

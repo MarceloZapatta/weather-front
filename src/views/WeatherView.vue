@@ -14,6 +14,7 @@ import { useLocationStore } from '../stores/locations'
 import type { Location } from '../interfaces/location'
 import LocationForecastTable from '../components/LocationForecastTable.vue'
 import router from '@/router'
+import LogoComponent from '../components/LogoComponent.vue'
 
 const selectedLocation = ref<Location | null>(null)
 const loading = ref(true)
@@ -125,7 +126,7 @@ onMounted(() => {
 
 <template>
   <div class="weather-view">
-    <h1>Weather Forecast ⛅</h1>
+    <LogoComponent />
     <div class="greeting-container">
       <h2 class="greeting">Hello, {{ user?.name }}!</h2>
       <ButtonDefault @click="signOut">Sign out</ButtonDefault>
@@ -212,6 +213,11 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
+}
+
+.saved-cities-buttons-container {
+  display: flex;
   gap: 10px;
 }
 

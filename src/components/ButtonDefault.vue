@@ -13,6 +13,11 @@ defineProps(['loading', 'type'])
 .button-default {
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   border: none;
+}
+
+.button-default:hover {
+  opacity: 0.8;
 }
 </style>

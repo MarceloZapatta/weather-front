@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { LocationForecast } from '../interfaces/location'
+import ButtonDefault from './ButtonDefault.vue'
 
 interface LocationForecastsTableProps {
   locationForecasts: LocationForecast[]
@@ -9,7 +10,7 @@ defineProps<LocationForecastsTableProps>()
 </script>
 
 <template>
-  <table v-if="locationForecasts.length > 0">
+  <table class="location-forecast-table" v-if="locationForecasts.length > 0">
     <tbody>
       <tr
         v-for="locationForecast in locationForecasts"
@@ -26,13 +27,15 @@ defineProps<LocationForecastsTableProps>()
           />
         </td>
         <td>{{ locationForecast.description }}</td>
-        <td>
-          <Popper content="This is the Popper content 🍿">
-            <button>More info</button>
+        <td align="right">
+          <Popper>
+            <ButtonDefault>More info</ButtonDefault>
             <template #content>
-              <p>Humidity: {{ locationForecast.humidity }}%</p>
-              <p>Rain: {{ locationForecast.rain }} mm</p>
-              <p>Wind speed: {{ locationForecast.wind_speed }} km/h</p>
+              <div class="more-info-popover">
+                <p>Humidity: {{ locationForecast.humidity }}%</p>
+                <p>Rain: {{ locationForecast.rain }} mm</p>
+                <p>Wind speed: {{ locationForecast.wind_speed }} km/h</p>
+              </div>
             </template>
           </Popper>
         </td>
@@ -50,7 +53,18 @@ defineProps<LocationForecastsTableProps>()
   --popper-theme-border-width: 0px;
   --popper-theme-border-style: solid;
   --popper-theme-border-radius: 6px;
-  --popper-theme-padding: 32px;
+  --popper-theme-padding: 20px;
   --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
+}
+</style>
+
+<style scoped>
+.location-forecast-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.more-info-popover {
+  text-align: left;
 }
 </style>
