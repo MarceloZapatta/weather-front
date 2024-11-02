@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-defineProps(['loading'])
+defineProps(['loading', 'type'])
 </script>
 
 <template>
-  <button class="button-default">
+  <button class="button-default" :type="type || 'button'">
     <div v-if="loading">Loading...</div>
     <slot v-else></slot>
   </button>
@@ -12,5 +12,7 @@ defineProps(['loading'])
 <style scoped>
 .button-default {
   padding: 10px;
+  border-radius: 8px;
+  border: none;
 }
 </style>
