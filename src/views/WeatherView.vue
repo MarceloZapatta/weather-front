@@ -17,23 +17,42 @@ import router from '@/router'
 
 const selectedLocation = ref<Location | null>(null)
 const loading = ref(true)
-const error = ref(null)
+const error = ref('')
 const { user } = useUserStore()
 const city = ref('')
 const country = ref('')
 const addCityForm = ref(false)
 const locations = useLocationStore()
 
+const validateStoreCity = () => {
+  if (!city.value || !country.value) {
+    error.value = 'City and country are required.'
+    return false
+  }
+
+  return true
+}
+
 const storeCity = async () => {
+  const valid = validateStoreCity()
+
+  if (!valid) return
+
   loading.value = true
   storeLocation(city.value, country.value)
     .then(() => {
       city.value = ''
       country.value = ''
       addCityForm.value = false
+      error.value = ''
       fetchSavedLocations()
     })
     .catch(err => {
+      if (err.status === 400) {
+        error.value = err.response.data.message
+        return
+      }
+
       error.value = err.message
     })
     .finally(() => {
@@ -106,20 +125,22 @@ onMounted(() => {
 
 <template>
   <div class="weather-view">
-    <h1>Weather Forecast</h1>
+    <h1>Weather Forecast ⛅</h1>
     <div class="greeting-container">
       <h2 class="greeting">Hello, {{ user?.name }}!</h2>
       <ButtonDefault @click="signOut">Sign out</ButtonDefault>
     </div>
-    <div v-if="error">{{ error }}</div>
+    <div class="error" v-if="error">{{ error }}</div>
     <div v-if="loading">Loading...</div>
     <div v-else-if="addCityForm">
       <InputText v-model="city" label="City" />
       <CountrySelect v-model="country" label="Country" />
-      <ButtonDefault @click="storeCity">Save</ButtonDefault>
-      <ButtonDefault @click="handleBack">
-        {{ 'Back' }}
-      </ButtonDefault>
+      <div class="buttons-city-form">
+        <ButtonDefault @click="storeCity">Save</ButtonDefault>
+        <ButtonDefault @click="handleBack">
+          {{ 'Back' }}
+        </ButtonDefault>
+      </div>
     </div>
     <div v-else class="saved-cities-container">
       Saved cities:
@@ -153,6 +174,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.error {
+  color: red;
+}
+
 .greeting-container {
   display: flex;
   align-items: center;
@@ -196,5 +221,10 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.buttons-city-form {
+  display: flex;
+  gap: 10px;
 }
 </style>
