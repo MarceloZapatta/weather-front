@@ -21,7 +21,7 @@ const handleLogin = async () => {
   loading.value = true
   login(email.value, password.value)
     .then(response => {
-      user.$patch({ user: response.user, token: response.token })
+      user.$patch({ user: response.user })
       router.push('/weather')
     })
     .finally(() => {

@@ -10,7 +10,10 @@ interface LoginResponse {
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
   timeout: 1000,
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
 })
 
 export const login = async (
@@ -19,6 +22,9 @@ export const login = async (
 ): Promise<LoginResponse> => {
   try {
     const response = await api.post('/login', { email, password })
+
+    localStorage.setItem('token', response.data.token)
+
     return response.data
   } catch (error) {
     console.error('Error logging in:', error)
@@ -26,9 +32,20 @@ export const login = async (
   }
 }
 
-export const getWeather = async (city: string) => {
+export const getWeather = async (city: string, countryCode: string) => {
   try {
-    const response = await api.get(`/weather?city=${city}`)
+    const response = await api.post(
+      `/user/locations`,
+      {
+        city,
+        country: countryCode,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      },
+    )
     return response.data
   } catch (error) {
     console.error('Error fetching weather data:', error)

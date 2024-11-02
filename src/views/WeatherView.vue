@@ -1,37 +1,40 @@
 <script lang="ts" setup>
+import { getWeather } from '@/services/api'
+import CountrySelect from '../components/CountrySelect.vue'
+import InputText from '../components/InputText.vue'
 import { useUserStore } from '@/stores/user'
 import { ref, onMounted } from 'vue'
+import ButtonDefault from '../components/ButtonDefault.vue'
 
 const weather = ref({
   temperature: 0,
   condition: '',
   humidity: 0,
 })
-const loading = ref(true)
+const loading = ref(false)
 const error = ref(null)
 const { user } = useUserStore()
+const city = ref('')
+const countryCode = ref('')
+const addCity = ref(true)
 
-const fetchWeatherData = async () => {
-  try {
-    loading.value = true
-    // Replace with your actual API call
-    const response = await fetch('your-weather-api-endpoint')
-    const data = await response.json()
-
-    weather.value = {
-      temperature: data.temperature,
-      condition: data.condition,
-      humidity: data.humidity,
-    }
-  } catch (e) {
-    error.value = 'Failed to fetch weather data'
-  } finally {
-    loading.value = false
-  }
+const storeCity = async () => {
+  loading.value = true
+  getWeather(city.value, countryCode.value)
+    .then(response => {
+      console.log(response.data)
+      weather.value = response.data
+    })
+    .catch(err => {
+      error.value = err.message
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 
 onMounted(() => {
-  fetchWeatherData()
+  // fetchWeatherData()
 })
 </script>
 
@@ -40,7 +43,12 @@ onMounted(() => {
     <h1>Weather Forecast</h1>
     <h2>Hello, {{ user?.name }}</h2>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div v-else-if="addCity">
+      <InputText v-model="city" label="City" />
+      <CountrySelect v-model="countryCode" label="Country" />
+      <ButtonDefault @click="storeCity">Save</ButtonDefault>
+    </div>
+    <!-- <div v-else-if="error">{{ error }}</div>
     <div v-else class="weather-content">
       <div class="current-weather">
         <h2>Current Weather</h2>
@@ -50,7 +58,7 @@ onMounted(() => {
           <p>Humidity: {{ weather.humidity }}%</p>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
