@@ -1,10 +1,15 @@
-import type { User } from '@/interfaces/user'
+import type { Location } from '@/interfaces/location'
+import type { User } from '../interfaces/user'
 import axios from 'axios'
 
 interface LoginResponse {
   message: string
   user: User
   token: string
+}
+
+interface LocationResponse {
+  data: Location[]
 }
 
 const api = axios.create({
@@ -32,7 +37,7 @@ export const login = async (
   }
 }
 
-export const getWeather = async (city: string, countryCode: string) => {
+export const storeLocation = async (city: string, countryCode: string) => {
   try {
     const response = await api.post(
       `/user/locations`,
@@ -46,6 +51,20 @@ export const getWeather = async (city: string, countryCode: string) => {
         },
       },
     )
+    return response.data
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    throw error
+  }
+}
+
+export const getLocations = async (): Promise<LocationResponse> => {
+  try {
+    const response = await api.get(`/user/locations`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
     return response.data
   } catch (error) {
     console.error('Error fetching weather data:', error)

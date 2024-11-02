@@ -10,10 +10,10 @@ const model = defineModel()
     </label>
     <select v-model="model">
       <option placeholder="Select a country" readonly>Select a country</option>
-      <option value="br">Brazil</option>
-      <option value="us">United States</option>
-      <option value="ca">Canada</option>
-      <option value="uk">United Kingdom</option>
+      <option value="BR">Brazil</option>
+      <option value="US">United States</option>
+      <option value="CA">Canada</option>
+      <option value="UK">United Kingdom</option>
     </select>
   </div>
 </template>

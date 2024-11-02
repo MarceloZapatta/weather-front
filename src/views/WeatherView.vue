@@ -1,26 +1,26 @@
 <script lang="ts" setup>
-import { getWeather } from '@/services/api'
+import { getLocations, storeLocation } from '../services/api'
 import CountrySelect from '../components/CountrySelect.vue'
 import InputText from '../components/InputText.vue'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '../stores/user'
 import { ref, onMounted } from 'vue'
 import ButtonDefault from '../components/ButtonDefault.vue'
+import { useLocationStore } from '../stores/locations'
+import type { LocationForecast } from '../interfaces/location'
+import LocationForecastTable from '../components/LocationForecastTable.vue'
 
-const weather = ref({
-  temperature: 0,
-  condition: '',
-  humidity: 0,
-})
-const loading = ref(false)
+const selectedLocationForecasts = ref<LocationForecast[]>([])
+const loading = ref(true)
 const error = ref(null)
 const { user } = useUserStore()
 const city = ref('')
-const countryCode = ref('')
-const addCity = ref(true)
+const country = ref('')
+const addCityForm = ref(false)
+const locations = useLocationStore()
 
 const storeCity = async () => {
   loading.value = true
-  getWeather(city.value, countryCode.value)
+  storeLocation(city.value, country.value)
     .then(response => {
       console.log(response.data)
       weather.value = response.data
@@ -33,8 +33,23 @@ const storeCity = async () => {
     })
 }
 
+const fetchSavedLocations = async () => {
+  loading.value = true
+  getLocations()
+    .then(response => {
+      console.log(response.data)
+      locations.$patch({ locations: response.data })
+    })
+    .catch(err => {
+      error.value = err.message
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
+
 onMounted(() => {
-  // fetchWeatherData()
+  fetchSavedLocations()
 })
 </script>
 
@@ -43,10 +58,29 @@ onMounted(() => {
     <h1>Weather Forecast</h1>
     <h2>Hello, {{ user?.name }}</h2>
     <div v-if="loading">Loading...</div>
-    <div v-else-if="addCity">
+    <div v-else-if="addCityForm">
       <InputText v-model="city" label="City" />
-      <CountrySelect v-model="countryCode" label="Country" />
+      <CountrySelect v-model="country" label="Country" />
       <ButtonDefault @click="storeCity">Save</ButtonDefault>
+      <ButtonDefault @click="addCityForm = false">
+        {{ 'Close' }}
+      </ButtonDefault>
+    </div>
+    <div>
+      <ButtonDefault
+        :key="location.id"
+        v-for="location in locations.locations"
+        @click="selectedLocationForecasts = location.forecasts"
+      >
+        {{ location.city }} - {{ location.country }}
+      </ButtonDefault>
+      <ButtonDefault @click="addCityForm = true">
+        {{ 'Add City' }}
+      </ButtonDefault>
+    </div>
+    <LocationForecastTable :locationForecasts="selectedLocationForecasts" />
+    <div>
+      <div></div>
     </div>
     <!-- <div v-else-if="error">{{ error }}</div>
     <div v-else class="weather-content">
