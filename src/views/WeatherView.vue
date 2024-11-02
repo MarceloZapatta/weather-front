@@ -99,7 +99,7 @@ const fetchSavedLocations = async () => {
 const signOut = () => {
   loading.value = true
   logout()
-    .then(() => router.push('/'))
+    .then(() => router.push('/login'))
     .finally(() => {
       loading.value = false
     })
