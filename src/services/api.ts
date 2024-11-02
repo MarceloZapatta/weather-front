@@ -1,6 +1,7 @@
 import type { Location } from '@/interfaces/location'
 import type { User } from '../interfaces/user'
 import axios from 'axios'
+import router from '@/router'
 
 interface LoginResponse {
   message: string
@@ -18,6 +19,15 @@ const api = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+  },
+  validateStatus: status => {
+    if (status === 401) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      router.push('/login')
+      return false
+    }
+    return status >= 200 && status < 300
   },
 })
 
@@ -79,6 +89,24 @@ export const deleteLocation = async (id: number) => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
+    return response.data
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    throw error
+  }
+}
+
+export const logout = async () => {
+  try {
+    const response = await api.post(`/logout`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+
     return response.data
   } catch (error) {
     console.error('Error fetching weather data:', error)

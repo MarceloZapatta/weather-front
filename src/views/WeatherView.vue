@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-import { deleteLocation, getLocations, storeLocation } from '../services/api'
+import {
+  deleteLocation,
+  getLocations,
+  logout,
+  storeLocation,
+} from '../services/api'
 import CountrySelect from '../components/CountrySelect.vue'
 import InputText from '../components/InputText.vue'
 import { useUserStore } from '../stores/user'
@@ -8,6 +13,7 @@ import ButtonDefault from '../components/ButtonDefault.vue'
 import { useLocationStore } from '../stores/locations'
 import type { Location } from '../interfaces/location'
 import LocationForecastTable from '../components/LocationForecastTable.vue'
+import router from '@/router'
 
 const selectedLocation = ref<Location | null>(null)
 const loading = ref(true)
@@ -68,6 +74,15 @@ const fetchSavedLocations = async () => {
     })
 }
 
+const signOut = () => {
+  loading.value = true
+  logout()
+    .then(() => router.push('/'))
+    .finally(() => {
+      loading.value = false
+    })
+}
+
 const handleBack = () => {
   error.value = null
   addCityForm.value = false
@@ -90,7 +105,10 @@ onMounted(() => {
 <template>
   <div class="weather-view">
     <h1>Weather Forecast</h1>
-    <h2 class="greeting">Hello, {{ user?.name }}!</h2>
+    <div class="greeting-container">
+      <h2 class="greeting">Hello, {{ user?.name }}!</h2>
+      <ButtonDefault @click="signOut">Sign out</ButtonDefault>
+    </div>
     <div v-if="error">{{ error }}</div>
     <div v-if="loading">Loading...</div>
     <div v-else-if="addCityForm">
@@ -133,6 +151,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.greeting-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .greeting {
   margin: 20px 0;
 }
