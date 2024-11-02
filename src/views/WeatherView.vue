@@ -65,6 +65,8 @@ const fetchSavedLocations = async () => {
     .then(response => {
       console.log(response.data)
       locations.$patch({ locations: response.data })
+
+      selectedLocation.value = response.data[0] || null
     })
     .catch(err => {
       error.value = err.message
