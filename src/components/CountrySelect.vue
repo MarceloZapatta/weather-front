@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import VueSelect from 'vue3-select-component'
+import { countries } from '../fixtures/countries'
+
 defineProps(['label', 'type', 'placeholder', 'autofocus'])
 const model = defineModel()
 </script>
@@ -8,13 +11,11 @@ const model = defineModel()
     <label :for="label">
       {{ label }}
     </label>
-    <select v-model="model">
-      <option value="" selected disabled>Select a country</option>
-      <option value="BR">Brazil</option>
-      <option value="US">United States</option>
-      <option value="CA">Canada</option>
-      <option value="UK">United Kingdom</option>
-    </select>
+    <VueSelect
+      v-model="model"
+      :options="countries"
+      placeholder="Select a country"
+    />
   </div>
 </template>
 

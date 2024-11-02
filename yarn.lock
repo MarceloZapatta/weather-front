@@ -3016,6 +3016,11 @@ vue3-popper@^1.5.0:
     "@popperjs/core" "^2.9.2"
     debounce "^1.2.1"
 
+vue3-select-component@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/vue3-select-component/-/vue3-select-component-0.6.1.tgz#385a0169af6ecf0d2fe39c836308ba0c51279ddb"
+  integrity sha512-5sFZXaq9p23ErcXmc3KcuJMkxUzNbmwf+xqEms5tX/n5310ZXYB1t0q7Q0vvcihlyHN8c+YciwnI2qgbbjwrpQ==
+
 vue@*, vue@^3.5.12:
   version "3.5.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.5.12.tgz#e08421c601b3617ea2c9ef0413afcc747130b36c"
