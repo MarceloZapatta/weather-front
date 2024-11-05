@@ -3,11 +3,12 @@ import { useUserStore } from '../stores/user'
 import LogoComponent from './LogoComponent.vue'
 import ButtonDefault from './ButtonDefault.vue'
 import { logout } from '../services/api'
-import router from '../router'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const { user } = useUserStore()
 const loading = ref(false)
+const router = useRouter()
 
 const signOut = () => {
   if (loading.value) return

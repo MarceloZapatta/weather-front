@@ -24,7 +24,7 @@ const api = axios.create({
     if (status === 401) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      router.push('/login')
+      window.location.replace('/login')
       return false
     }
     return status >= 200 && status < 300
