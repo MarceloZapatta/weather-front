@@ -13,6 +13,7 @@ import ButtonDefault from '../components/ButtonDefault.vue'
 import { useLocationStore } from '../stores/locations'
 import type { Location } from '../interfaces/location'
 import LocationForecastTable from '../components/LocationForecastTable.vue'
+import LoadingSpinner from '../components/LoadingSpinner.vue'
 import router from '@/router'
 import LogoComponent from '../components/LogoComponent.vue'
 
@@ -134,7 +135,7 @@ onMounted(() => {
       <ButtonDefault @click="signOut">Sign out</ButtonDefault>
     </div>
     <div class="error" v-if="error">{{ error }}</div>
-    <div v-if="loading">Loading...</div>
+    <LoadingSpinner v-if="loading" />
     <div v-else-if="addCityForm">
       <div class="add-city-form-container">
         <form @submit.prevent="storeCity" class="add-city-form">

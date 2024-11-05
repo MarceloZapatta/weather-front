@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import LoadingSpinner from './LoadingSpinner.vue'
+
 defineProps(['loading', 'type', 'large'])
 </script>
 
 <template>
   <button class="button-default" :type="type || 'button'">
-    <div v-if="loading">Loading...</div>
+    <LoadingSpinner v-if="loading" />
     <slot v-else></slot>
   </button>
 </template>
