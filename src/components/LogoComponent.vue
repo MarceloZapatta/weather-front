@@ -1,9 +1,18 @@
 <template>
-  <h1 class="logo">Weather Forecast ⛅</h1>
+  <div class="logo-container">
+    <h1 class="logo">Weather Forecast ⛅</h1>
+  </div>
 </template>
 
 <style scoped>
-.logo {
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo-container .logo {
   margin: 20px 0;
 }
 </style>

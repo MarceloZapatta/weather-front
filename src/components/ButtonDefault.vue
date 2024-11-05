@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps(['loading', 'type'])
+defineProps(['loading', 'type', 'large'])
 </script>
 
 <template>

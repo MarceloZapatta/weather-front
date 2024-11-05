@@ -29,7 +29,9 @@ const model = defineModel()
 .input-text label {
   padding-right: 10px;
 }
+
 .input-text input {
+  width: 200px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;

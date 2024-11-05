@@ -7,7 +7,7 @@ const model = defineModel()
 </script>
 
 <template>
-  <div class="input-text">
+  <div class="input-select">
     <label :for="label">
       {{ label }}
     </label>
@@ -15,25 +15,24 @@ const model = defineModel()
       v-model="model"
       :options="countries"
       placeholder="Select a country"
+      class="select"
     />
   </div>
 </template>
 
 <style scoped>
-.input-text {
+.input-select {
   margin: 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.input-text label {
+.input-select label {
   padding-right: 10px;
 }
-.input-text select {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.input-select .select {
+  widows: 100%;
+  width: 200px;
 }
 </style>

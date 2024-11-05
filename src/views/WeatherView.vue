@@ -136,13 +136,17 @@ onMounted(() => {
     <div class="error" v-if="error">{{ error }}</div>
     <div v-if="loading">Loading...</div>
     <div v-else-if="addCityForm">
-      <InputText v-model="city" label="City" />
-      <CountrySelect v-model="country" label="Country" />
-      <div class="buttons-city-form">
-        <ButtonDefault @click="storeCity">Save</ButtonDefault>
-        <ButtonDefault @click="handleBack">
-          {{ 'Back' }}
-        </ButtonDefault>
+      <div class="add-city-form-container">
+        <form @submit.prevent="storeCity" class="add-city-form">
+          <InputText v-model="city" label="City" />
+          <CountrySelect v-model="country" label="Country" />
+          <div class="buttons-city-form">
+            <ButtonDefault type="submit">Save</ButtonDefault>
+            <ButtonDefault @click="handleBack">
+              {{ 'Back' }}
+            </ButtonDefault>
+          </div>
+        </form>
       </div>
     </div>
     <div v-else class="saved-cities-container">
@@ -234,5 +238,11 @@ onMounted(() => {
 .buttons-city-form {
   display: flex;
   gap: 10px;
+}
+
+.add-city-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -61,42 +61,38 @@ const handleLogin = async () => {
 
 <template>
   <LogoComponent />
-  <div class="login">
-    <div class="login-container">
-      <form @submit.prevent="handleLogin">
-        <h2>Please enter your credentials</h2>
-        <p class="error" v-if="error">{{ error }}</p>
-        <InputText
-          v-model="email"
-          type="email"
-          label="Email"
-          placeholder="jorge@email.com"
-          :autofocus="true"
-        />
-        <InputText
-          v-model="password"
-          label="Password"
-          type="password"
-          placeholder="password"
-        />
-        <ButtonDefault type="submit" :loading="loading">
-          Login
-        </ButtonDefault>
-      </form>
-    </div>
+  <div class="login-container">
+    <form @submit.prevent="handleLogin">
+      <h2>Please enter your credentials</h2>
+      <p class="error" v-if="error">{{ error }}</p>
+      <InputText
+        v-model="email"
+        type="email"
+        label="Email"
+        placeholder="jorge@email.com"
+        :autofocus="true"
+      />
+      <InputText
+        v-model="password"
+        label="Password"
+        type="password"
+        placeholder="password"
+      />
+      <ButtonDefault large type="submit" :loading="loading">
+        Login
+      </ButtonDefault>
+    </form>
   </div>
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+.error {
+  color: red;
+}
 
-  .error {
-    color: red;
-  }
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 </style>
