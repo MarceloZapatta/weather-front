@@ -1,26 +1,18 @@
 <script lang="ts" setup>
-import {
-  deleteLocation,
-  getLocations,
-  logout,
-  storeLocation,
-} from '../services/api'
+import { deleteLocation, getLocations, storeLocation } from '../services/api'
 import CountrySelect from '../components/CountrySelect.vue'
 import InputText from '../components/InputText.vue'
-import { useUserStore } from '../stores/user'
 import { ref, onMounted } from 'vue'
 import ButtonDefault from '../components/ButtonDefault.vue'
 import { useLocationStore } from '../stores/locations'
 import type { Location } from '../interfaces/location'
 import LocationForecastTable from '../components/LocationForecastTable.vue'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
-import router from '@/router'
-import LogoComponent from '../components/LogoComponent.vue'
+import HeaderDefault from '../components/HeaderDefault.vue'
 
 const selectedLocation = ref<Location | null>(null)
 const loading = ref(true)
 const error = ref('')
-const { user } = useUserStore()
 const city = ref('')
 const country = ref('')
 const addCityForm = ref(false)
@@ -86,7 +78,6 @@ const fetchSavedLocations = async () => {
   loading.value = true
   getLocations()
     .then(response => {
-      console.log(response.data)
       locations.$patch({ locations: response.data })
 
       selectedLocation.value = response.data[0] || null
@@ -99,17 +90,8 @@ const fetchSavedLocations = async () => {
     })
 }
 
-const signOut = () => {
-  loading.value = true
-  logout()
-    .then(() => router.push('/login'))
-    .finally(() => {
-      loading.value = false
-    })
-}
-
 const handleBack = () => {
-  error.value = null
+  error.value = ''
   addCityForm.value = false
 }
 
@@ -128,12 +110,8 @@ onMounted(() => {
 </script>
 
 <template>
+  <HeaderDefault />
   <div class="weather-view">
-    <LogoComponent />
-    <div class="greeting-container">
-      <h2 class="greeting">Hello, {{ user?.name }}!</h2>
-      <ButtonDefault @click="signOut">Sign out</ButtonDefault>
-    </div>
     <div class="error" v-if="error">{{ error }}</div>
     <LoadingSpinner v-if="loading" />
     <div v-else-if="addCityForm">
@@ -184,16 +162,6 @@ onMounted(() => {
 <style scoped>
 .error {
   color: red;
-}
-
-.greeting-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.greeting {
-  margin: 20px 0;
 }
 
 .weather-view {

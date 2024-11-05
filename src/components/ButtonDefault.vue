@@ -5,8 +5,12 @@ defineProps(['loading', 'type', 'large'])
 </script>
 
 <template>
-  <button class="button-default" :type="type || 'button'">
-    <LoadingSpinner v-if="loading" />
+  <button
+    class="button-default"
+    :class="{ 'button-default--loading': loading }"
+    :type="type || 'button'"
+  >
+    <LoadingSpinner v-if="loading" :small="true" />
     <slot v-else></slot>
   </button>
 </template>
@@ -17,6 +21,10 @@ defineProps(['loading', 'type', 'large'])
   border-radius: 8px;
   cursor: pointer;
   border: none;
+}
+
+.button-default--loading {
+  padding: 5px 15px;
 }
 
 .button-default:hover {

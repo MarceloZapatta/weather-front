@@ -1,7 +1,7 @@
 import type { Location } from '@/interfaces/location'
 import type { User } from '../interfaces/user'
 import axios from 'axios'
-import router from '@/router'
+import router from '../router'
 
 interface LoginResponse {
   message: string
@@ -98,11 +98,15 @@ export const deleteLocation = async (id: number) => {
 
 export const logout = async () => {
   try {
-    const response = await api.post(`/logout`, {}, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+    const response = await api.post(
+      `/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       },
-    })
+    )
 
     localStorage.removeItem('token')
     localStorage.removeItem('user')

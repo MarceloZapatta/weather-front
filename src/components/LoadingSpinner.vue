@@ -1,25 +1,30 @@
+<script lang="ts" setup>
+defineProps(['small'])
+</script>
+
 <template>
   <div class="loading-container">
-    <span class="loader"></span>
+    <span class="loader" :class="{ 'loader--small': small }"></span>
   </div>
 </template>
 
 <style scoped>
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .loader {
   width: 24px;
   height: 24px;
-  border: 5px solid #fff;
-  border-bottom-color: transparent;
+  border: 5px solid #999999;
+  border-bottom-color: #ffd900;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+
+.loader--small {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #999999;
+  border-bottom-color: #ffd900;
 }
 
 @keyframes rotation {
