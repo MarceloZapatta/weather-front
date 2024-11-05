@@ -40,6 +40,8 @@ const storeCity = async () => {
   if (!valid) return
 
   loading.value = true
+  error.value = ''
+
   storeLocation(city.value, country.value)
     .then(() => {
       city.value = ''

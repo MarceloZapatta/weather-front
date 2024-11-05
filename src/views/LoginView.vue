@@ -63,7 +63,7 @@ const handleLogin = async () => {
   <LogoComponent />
   <div class="login">
     <div class="login-container">
-      <form>
+      <form @submit.prevent="handleLogin">
         <h2>Please enter your credentials</h2>
         <p class="error" v-if="error">{{ error }}</p>
         <InputText
@@ -79,7 +79,7 @@ const handleLogin = async () => {
           type="password"
           placeholder="password"
         />
-        <ButtonDefault @click="handleLogin" :loading="loading">
+        <ButtonDefault type="submit" :loading="loading">
           Login
         </ButtonDefault>
       </form>

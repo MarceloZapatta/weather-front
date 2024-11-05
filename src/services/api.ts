@@ -98,7 +98,7 @@ export const deleteLocation = async (id: number) => {
 
 export const logout = async () => {
   try {
-    const response = await api.post(`/logout`, {
+    const response = await api.post(`/logout`, {}, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
